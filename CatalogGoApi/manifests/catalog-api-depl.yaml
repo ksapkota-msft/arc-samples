@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-api-depl
+  labels:
+    app: catalog-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: catalog-api
+  template:
+    metadata:
+      labels:
+        app: catalog-api
+        service: catalog-api
+    spec:
+      containers:
+        - name: catalog-api
+          image: ksapkota/catalog-api:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+          - name: SECRET_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: dbsecrets
+                key: user-id
+          - name: SECRET_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: dbsecrets
+                key: password
+          - name: SECRET_DB_SERVER
+            valueFrom:
+              secretKeyRef:
+                name: dbsecrets
+                key: server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-api
+  labels:
+    app: catalog-api
+    service: catalog-api
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 11000
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    service: catalog-api
