@@ -26,17 +26,17 @@ spec:
           - name: SECRET_USERNAME
             valueFrom:
               secretKeyRef:
-                name: dbsecrets
+                name: catalog-dbsecrets
                 key: user-id
           - name: SECRET_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: dbsecrets
+                name: catalog-dbsecrets
                 key: password
           - name: SECRET_DB_SERVER
             valueFrom:
               secretKeyRef:
-                name: dbsecrets
+                name: catalog-dbsecrets
                 key: server
 ---
 apiVersion: v1
