@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: catalog-api
-          image: ksapkota/catalog-api:latest
-          imagePullPolicy: Never
+          image: docker.io/ksapkota/catalog-api:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
               protocol: TCP
